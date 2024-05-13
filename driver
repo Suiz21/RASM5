@@ -1,0 +1,119 @@
+  /* Programmer: Aidan Ramirez
+   * RASM5
+   * Purpose: Sorts 200,000 integers using an assembly and C++ technique, recording each time
+   * Author: Aidan Ramirez
+   * Date last modified: May 16 2024
+   */
+
+  .data
+  
+  szTitle: .asciz  "\n\n\t\t\t  RASM5 C vs Assembly\n"
+  szFileCount: .asciz  "\t\t\t File Element Count: 200000\n"
+  szLineBreak: .asciz  "\t------------------------------------------------\n"
+  szCSortTime: .asciz  "\tC        Bubblesort Time: 0 secs\n"
+  szASortTime: .asciz  "\tAssembly Bubblesort Time: 0 secs\n"
+  szOp1: .asciz  "\t<1> Load input file (integers)\n"
+  szOp2: .asciz  "\t<2> Sort using C Bubblesort algorithm\n"
+  szOp3: .asciz  "\t<3> Sort using Assembly Bubblesort algorithm\n"
+  szOp4: .asciz  "\t<4> Quit\n"
+  szOp1A:   .asciz  "1"
+  szOp2A:   .asciz  "2"
+  szOp3A:   .asciz  "3"
+  szOp4A:   .asciz  "4"
+  
+  szPromptLine: .asciz  "\tEnter a number  1-4: "
+  szBuffer:    .skip   21
+
+  .global _main
+  .text
+
+  _main:
+  /* Print Intro Sequence */
+  LDR X0,=szTitle       // Loads title
+  BL  putstring         // prints
+  
+  LDR X0,=szFileCount   // Loads file count
+  BL  putstring         // Prints 
+  
+  LDR X0,=szLineBreak   // Loads link break
+  BL  putstring         // Prints
+ 
+  LDR X0,=szCSortTime   // Loads C sort time
+  BL  putstring         // Prints
+  
+  LDR X0,=szASortTime   // Loads Assembly sort time
+  BL  putstring         // Prints
+  
+  LDR X0,=szOp1         // Loads option 1
+  BL  putstring         // Prints
+  
+  LDR X0,=szOp2         // Loads option 2
+  BL  putstring         // Prints
+  
+  LDR X0,=szOp3         // Loads option 3
+  BL  putstring         // Prints
+  
+  LDR X0,=szOp4         // Loads option 4
+  BL  putstring         // Prints
+
+  /* Print Prompt line */
+  LDR X0,=szPromptLine  // Loads prompt 
+  BL  putstring         // Print
+
+  /* Receive input */
+  LDR X0,=szBuffer      // Loads var to hold prompt
+  MOV X1,20             // Loads max length for input
+  BL  getstring         // Receives input
+
+  /* Check options */
+  // Option 1
+   LDR   X0, =szBuffer           // Load &szBuffer into x0
+   LDR   X1, =szOp1A          // Load &szOp1A into x1
+   BL    Equals                // Evaluate szBuffer == szOption1
+   CMP   X0, #1                  // If result == true,
+   BEQ   run_1                   // Then jump to run_1
+
+ // Option 2
+   LDR   X0, =szBuffer           // Load &szBuffer into x0
+   LDR   X1, =szOp2A             // Load &szOp2A into x1
+   BL    Equals                  // Evaluate szBuffer == szOption1
+   CMP   X0, #1                  // If result == true,
+   BEQ   run_2                   // Then jump to run_2
+
+ // Option 3
+   LDR   X0, =szBuffer           // Load &szBuffer into x0
+   LDR   X1, =szOp3A             // Load &szOp3A into x1
+   BL    Equals           // Evaluate szBuffer == szOption1
+   CMP   X0, #1                  // If result == true,
+   BEQ   run_3                   // Then jump to run_3
+
+ // Option 4
+   LDR   X0, =szBuffer           // Load &szBuffer into x0
+   LDR   X1, =szOp4A          // Load &szOp4A into x1
+   BL    Equals           // Evaluate szBuffer == szOption1
+   CMP   X0, #1                  // If result == true,
+   BEQ   exit                   // Then jump to exit
+
+  /* EXIT SEQUENCE */
+  exit: 
+   // Setup the parameters to exit the program
+   // and then call Linux to do it.
+   MOV X0,#0  // Use 0 return code
+   MOV X8,#93 //Service code 93 terminates
+   SVC 0  // Call Linux to terminate
+  
+
+  run_1:
+  LDR X0,=szOp1
+  BL  putstring
+  B  exit
+
+ run_2:
+  LDR X0,=szOp2
+  BL  putstring
+  B  exit
+
+ run_3:
+  LDR X0,=szOp3
+  BL  putstring
+  B  exit
