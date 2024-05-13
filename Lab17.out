@@ -1,0 +1,22 @@
+//  Programmer: Aidan Ramirez
+//  Lab 17
+//  Purpose: Calls your String length function using C++ directives
+//  Author: Aidan Ramirez
+//  Date last modified: 7 May  2024
+
+  // Library directories
+  #include <iostream>
+  #include <cstring>
+  using namespace std;
+
+  extern "C" int String_length( char *); // Recognize C++ notation
+
+  int main(){
+  char str[] = "Cat in the hat.";   // Declare str[]
+
+  cout << str <<  " C-String length= " << strlen(str) << endl;   // Call C-stirng length
+  cout << str <<  " ASM length= " << String_length(str) << endl; // Call your string length
+                                                                 // function
+
+  return 0;
+  }
